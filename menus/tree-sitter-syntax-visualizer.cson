@@ -1,0 +1,14 @@
+'menu': [
+  {
+    'label': 'Packages'
+    'submenu': [
+      'label': 'Tree-sitter'
+      'submenu': [
+        {
+          'label': 'Syntax Visualizer'
+          'command': 'tree-sitter-syntax-visualizer:toggle'
+        }
+      ]
+    ]
+  }
+]

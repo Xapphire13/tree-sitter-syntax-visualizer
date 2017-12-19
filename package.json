@@ -1,0 +1,44 @@
+{
+  "name": "tree-sitter-syntax-visualizer",
+  "main": "./lib/tree-sitter-syntax-visualizer.ts",
+  "version": "0.0.0",
+  "description": "Syntax tree visualizer for tree-sitter",
+  "keywords": [
+    "tree-sitter",
+    "syntax",
+    "tree",
+    "visualizer",
+    "compiler",
+    "parser"
+  ],
+  "activationCommands": {
+    "atom-workspace": "tree-sitter-syntax-visualizer:toggle"
+  },
+  "repository": "https://github.com/xapphire13/tree-sitter-syntax-visualizer",
+  "license": "MIT",
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  },
+  "dependencies": {
+    "atom-ts-transpiler": "^1.4.0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "tree-sitter": "^0.7.5",
+    "tree-sitter-c-sharp": "file:../tree-sitter-c-sharp-0.0.2.tgz",
+    "typescript": "^2.6.2"
+  },
+  "atomTranspilers": [
+    {
+      "transpiler": "atom-ts-transpiler",
+      "glob": "/lib/**/*.ts{,x}",
+      "options": {
+        "verbose": true
+      }
+    }
+  ],
+  "devDependencies": {
+    "@types/atom": "^1.22.3",
+    "@types/react": "^16.0.31",
+    "@types/react-dom": "^16.0.3"
+  }
+}
