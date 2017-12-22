@@ -13,6 +13,7 @@ export class RootElement {
 
   constructor() {
     this.element = document.createElement("div");
+    this.element.classList.add("tree-sitter-syntax-visualizer");
     this.render({});
   }
 

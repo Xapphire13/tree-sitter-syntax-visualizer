@@ -5,4 +5,47 @@
 @import "ui-variables";
 
 .tree-sitter-syntax-visualizer {
+  .tree-sitter-panel {
+    padding: 10px;
+
+    .ast-node {
+      &.selected {
+        background: #666;
+      }
+
+      &.has-children > .ast-node-header {
+        &::before {
+          font-family: 'Octicons Regular';
+          font-weight: normal;
+          font-style: normal;
+          display: inline-block;
+          line-height: 1;
+          font-size: 12px;
+          width: 12px;
+          height: 12px;
+        }
+      }
+
+      &.has-children.expanded > .ast-node-header {
+        &::before {
+          content: "\f0a3";
+        }
+      }
+
+      &.has-children.collapsed > .ast-node-header {
+        &::before {
+          content: "\f078";
+        }
+      }
+
+      .ast-node-list {
+        margin-left: 10px;
+      }
+    }
+
+    .ast-node-list {
+      list-style: none;
+      padding: 0;
+    }
+  }
 }

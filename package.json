@@ -30,10 +30,7 @@
   "atomTranspilers": [
     {
       "transpiler": "atom-ts-transpiler",
-      "glob": "/lib/**/*.ts{,x}",
-      "options": {
-        "verbose": true
-      }
+      "glob": "/lib/**/*.ts?(x)"
     }
   ],
   "devDependencies": {
