@@ -1,14 +1,37 @@
 import * as React from "react";
-import * as _AstNode from "./ast-node";
+import * as _SyntaxTreeView from "./syntax-tree-view";
+import * as _PropertyView from "./property-view";
 
-const {AstNode} = require("./ast-node.tsx") as (typeof _AstNode);
+const {PropertyView} = require("./property-view.tsx") as (typeof _PropertyView);
+const {SyntaxTreeView} = require("./syntax-tree-view.tsx") as (typeof _SyntaxTreeView);
 
-export class TreeSitterPanel extends React.Component<{tsDocument: any}> {
+type Props = {
+  tsDocument: any;
+};
+
+type State = {
+  selectedNode: any;
+};
+
+export class TreeSitterPanel extends React.Component<Props, State> {
+  private onNodeSelected = (tsNode: any): void => {
+    this.setState({
+      selectedNode: tsNode
+    });
+  }
+
+  constructor(props: Props) {
+    super(props);
+
+    this.state = {
+      selectedNode: null
+    };
+  }
+
   public render(): JSX.Element {
     return <div className="tree-sitter-panel">
-      <ul className="ast-node-list">
-        {this.props.tsDocument && <AstNode tsNode={this.props.tsDocument.rootNode} />}
-      </ul>
+      <SyntaxTreeView tsDocument={this.props.tsDocument} onNodeSelected={this.onNodeSelected} selectedNode={this.state.selectedNode} />
+      <PropertyView tsNode={this.state.selectedNode} />
     </div>
   }
 }

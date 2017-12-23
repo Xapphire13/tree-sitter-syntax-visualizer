@@ -1,11 +1,24 @@
+import * as React from "react";
+import * as ReactDOM from "react-dom";
+import * as _TreeSitterPanel from "./tree-sitter-panel";
 import {CompositeDisposable} from "atom";
-import {RootElement} from "./root-element";
 
+const {TreeSitterPanel} = require("./tree-sitter-panel.tsx") as (typeof _TreeSitterPanel);
 const {Document} = require("tree-sitter");
 
 module.exports = new class TreeSitterSyntaxVisualizer {
+  public element: HTMLElement;
+  public readonly getTitle = () => "tree-sitter";
+  public readonly getAllowedLocations = () => ["right", "left"];
+  public readonly getURI = () => "atom://tree-sitter";
+
   private subscriptions = new CompositeDisposable();
-  private rootElement: RootElement;
+
+  constructor() {
+    this.element = document.createElement("div");
+    this.element.classList.add("tree-sitter-syntax-visualizer");
+    this.render({});
+  }
 
   public activate(): void {
     this.subscriptions.add(atom.commands.add("atom-workspace", {
@@ -21,9 +34,7 @@ module.exports = new class TreeSitterSyntaxVisualizer {
 
   public toggle(): void {
     // TODO file bug/PR fixing documentation for `atom.workspace.open()`
-    if (!this.rootElement) this.rootElement = new RootElement();
-
-    atom.workspace.toggle(this.rootElement);
+    atom.workspace.toggle(this);
 
     atom.workspace.observeActiveTextEditor(editor => {
       if (editor && editor.getGrammar().name === "C#") {
@@ -32,8 +43,12 @@ module.exports = new class TreeSitterSyntaxVisualizer {
         tsDocument.setInputString(editor.getText());
         tsDocument.parse();
 
-        this.rootElement.documentLoaded(tsDocument);
+        this.render({tsDocument});
       }
     });
+  }
+
+  public render(props: any) {
+    ReactDOM.render(React.createElement(TreeSitterPanel, props), this.element);
   }
 }
