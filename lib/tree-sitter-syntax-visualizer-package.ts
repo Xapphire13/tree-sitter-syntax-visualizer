@@ -1,10 +1,10 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
+import * as TreeSitter from "tree-sitter";
 import * as _TreeSitterPanel from "./tree-sitter-panel";
 import {CompositeDisposable} from "atom";
 
 const {TreeSitterPanel} = require("./tree-sitter-panel.tsx") as (typeof _TreeSitterPanel);
-const {Document} = require("tree-sitter");
 
 module.exports = new class TreeSitterSyntaxVisualizer {
   public element: HTMLElement;
@@ -38,7 +38,7 @@ module.exports = new class TreeSitterSyntaxVisualizer {
 
     atom.workspace.observeActiveTextEditor(editor => {
       if (editor && editor.getGrammar().name === "C#") {
-        const tsDocument = new Document();
+        const tsDocument = new TreeSitter.Document();
         tsDocument.setLanguage(require("tree-sitter-c-sharp"));
         tsDocument.setInputString(editor.getText());
         tsDocument.parse();

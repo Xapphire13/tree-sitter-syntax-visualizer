@@ -1,9 +1,10 @@
 import * as React from "react";
+import * as TreeSitter from "tree-sitter";
 
 type Props = {
-  tsNode: any;
-  onSelected(tsNode: any): void;
-  selectedNode: any;
+  tsNode: TreeSitter.AstNode;
+  onSelected(tsNode: TreeSitter.AstNode): void;
+  selectedNode: TreeSitter.AstNode | null;
 };
 
 type State = {
@@ -32,7 +33,7 @@ export class AstNode extends React.Component<Props, State> {
       {this.props.tsNode.children.length > 0 && <div className="ast-node-toggle" onClick={this.toggle}></div>}
       <div className="ast-node-header" onClick={this.onClick}>{this.props.tsNode.type}</div>
       {this.state.expanded && <ul className="ast-node-list">
-        {this.props.tsNode.children.map((childNode: any) => <AstNode
+        {this.props.tsNode.children.map(childNode => <AstNode
             key={childNode.id}
             tsNode={childNode}
             onSelected={this.props.onSelected}
