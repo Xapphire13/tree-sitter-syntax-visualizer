@@ -17,6 +17,13 @@ type State = {
   selectedNode: TreeSitter.AstNode | null;
 };
 
+const GRAMMAR_LANGUAGE_MAP = new Map<string, () => any>([
+  ["C#", () => require("tree-sitter-c-sharp")],
+  ["JavaScript", () => require("tree-sitter-javascript")],
+  ["JSON", () => require("tree-sitter-json")],
+  ["TypeScript", () => require("tree-sitter-typescript")]
+]);
+
 export class TreeSitterPanel extends React.Component<Props, State> {
   private subscriptions = new CompositeDisposable();
   private onNodeSelected = (tsNode: TreeSitter.AstNode): void => {
@@ -41,13 +48,14 @@ export class TreeSitterPanel extends React.Component<Props, State> {
 
       const editor = nextProps.textEditor;
 
-      if (editor && editor.getGrammar().name === "C#") {
+      if (editor && GRAMMAR_LANGUAGE_MAP.has(editor.getGrammar().name)) {
         const createDocument = () => {
           const tsDocument = new TreeSitter.Document();
-          tsDocument.setLanguage(require("tree-sitter-c-sharp"));
+          tsDocument.setLanguage(GRAMMAR_LANGUAGE_MAP.get(editor.getGrammar().name)!());
           tsDocument.setInputString(editor.getText());
           tsDocument.parse();
 
+          console.log(tsDocument.rootNode);
           return tsDocument;
         };
 

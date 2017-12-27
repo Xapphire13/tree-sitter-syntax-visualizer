@@ -1,6 +1,5 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import * as TreeSitter from "tree-sitter";
 import * as _TreeSitterPanel from "./tree-sitter-panel";
 import {CompositeDisposable} from "atom";
 
@@ -17,7 +16,9 @@ module.exports = new class TreeSitterSyntaxVisualizer {
   constructor() {
     this.element = document.createElement("div");
     this.element.classList.add("tree-sitter-syntax-visualizer");
-    this.render({});
+    this.render({
+      textEditor: undefined
+    });
   }
 
   public activate(): void {
