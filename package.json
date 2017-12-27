@@ -24,7 +24,6 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "tree-sitter": "^0.7.5",
-    "tree-sitter-c-sharp": "file:../tree-sitter-c-sharp-0.0.2.tgz",
     "typescript": "^2.6.2"
   },
   "atomTranspilers": [
