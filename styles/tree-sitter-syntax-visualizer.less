@@ -16,15 +16,14 @@
       padding: 10px;
 
       .ast-node {
-        // &.selected::before {
-        //   background: #2c313a;
-        //   content: "";
-        //   position: absolute;
-        //   left: 0;
-        //   top: 0;
-        //   height: 18px;
-        //   width: 100%;
-        // }
+        &.selected::before {
+          background: #2c313a;
+          content: "";
+          position: absolute;
+          left: 0;
+          right: 0;
+          height: 2em;
+        }
 
         &.has-children {
           .ast-node-toggle {
@@ -53,12 +52,9 @@
           }
         }
 
-        .ast-node-toggle {
+        .ast-node-toggle, .ast-node-header {
           display: inline-block;
-        }
-
-        .ast-node-header {
-          display: inline-block;
+          height: 2em;
         }
 
         .ast-node-list {
