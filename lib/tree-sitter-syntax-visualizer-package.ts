@@ -37,18 +37,11 @@ module.exports = new class TreeSitterSyntaxVisualizer {
     atom.workspace.toggle(this);
 
     atom.workspace.observeActiveTextEditor(editor => {
-      if (editor && editor.getGrammar().name === "C#") {
-        const tsDocument = new TreeSitter.Document();
-        tsDocument.setLanguage(require("tree-sitter-c-sharp"));
-        tsDocument.setInputString(editor.getText());
-        tsDocument.parse();
-
-        this.render({tsDocument});
-      }
+      this.render({textEditor: editor});
     });
   }
 
-  public render(props: any) {
+  public render(props: _TreeSitterPanel.Props) {
     ReactDOM.render(React.createElement(TreeSitterPanel, props), this.element);
   }
 }
