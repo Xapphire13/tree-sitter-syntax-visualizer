@@ -31,8 +31,20 @@ export class AstNode extends React.Component<Props, State> {
     this.props.nodeMap.set(this.props.tsNode.id, this);
   }
 
+  public componentDidMount(): void {
+    if (this.isSelected()) {
+      this.scrollIntoView();
+    }
+  }
+
   public componentWillUnmount(): void {
     this.props.nodeMap.delete(this.props.tsNode.id);
+  }
+
+  public componentWillReceiveProps(nextProps: Props): void {
+    if (this.isSelected(nextProps)) {
+      this.scrollIntoView();
+    }
   }
 
   public render(): JSX.Element {
@@ -50,7 +62,7 @@ export class AstNode extends React.Component<Props, State> {
     </li>;
   }
 
-  public scrollIntoView(): void {
+  private scrollIntoView(): void {
     if (this.element && !this.isInView()) {
       this.element.scrollIntoView();
     }
@@ -65,8 +77,8 @@ export class AstNode extends React.Component<Props, State> {
     return classes.join(" ")
   }
 
-  private isSelected(): boolean {
-    return this.props.selectedNode ? this.props.selectedNode.id === this.props.tsNode.id : false;
+  private isSelected(props: Props = this.props): boolean {
+    return props.selectedNode ? props.selectedNode.id === props.tsNode.id : false;
   }
 
   private isInView(): boolean {

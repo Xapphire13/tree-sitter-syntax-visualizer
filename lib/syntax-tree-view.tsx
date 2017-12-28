@@ -18,25 +18,22 @@ export class SyntaxTreeView extends React.Component<Props> {
       this.nodeMap.clear();
     }
 
-    if (nextProps.selectedNode && nextProps.selectedNode !== this.props.selectedNode) {
-      let node = this.nodeMap.get(nextProps.selectedNode.id);
+    if (nextProps.selectedNode &&
+      nextProps.selectedNode !== this.props.selectedNode &&
+      !this.nodeMap.has(nextProps.selectedNode.id)) { // Node is hidden in a fold
+      let tsNode = this.findChildNode(this.props.tsDocument.rootNode!, nextProps.selectedNode.id)!;
+      let visibleAncestor: TreeSitter.ASTNode | null = null;
 
-      if (!node) { // Node is hidden in a fold
-        let tsNode = this.findChildNode(this.props.tsDocument.rootNode!, nextProps.selectedNode.id)!;
-        let visibleAncestor: TreeSitter.ASTNode | null = null;
+      while (!visibleAncestor && tsNode.parent) {
+        tsNode = tsNode.parent;
 
-        while (!visibleAncestor && tsNode.parent) {
-          tsNode = tsNode.parent;
-
-          if (this.nodeMap.has(tsNode.id)) {
-            visibleAncestor = tsNode;
-          }
+        if (this.nodeMap.has(tsNode.id)) {
+          visibleAncestor = tsNode;
         }
+      }
 
-        this.nodeMap.get(visibleAncestor!.id)!.toggle();
-        node = this.nodeMap.get(nextProps.selectedNode.id)!;
-      } else {
-        node.scrollIntoView();
+      if (visibleAncestor && this.nodeMap.has(visibleAncestor.id)) {
+        this.nodeMap.get(visibleAncestor.id)!.toggle();
       }
     }
   }
