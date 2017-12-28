@@ -14,7 +14,7 @@ export type Props = {
 
 type State = {
   tsDocument: TreeSitter.Document | null;
-  selectedNode: TreeSitter.AstNode | null;
+  selectedNode: TreeSitter.ASTNode | null;
 };
 
 const GRAMMAR_LANGUAGE_MAP = new Map<string, () => any>([
@@ -26,7 +26,7 @@ const GRAMMAR_LANGUAGE_MAP = new Map<string, () => any>([
 
 export class TreeSitterPanel extends React.Component<Props, State> {
   private subscriptions = new CompositeDisposable();
-  private onNodeSelected = (tsNode: TreeSitter.AstNode): void => {
+  private onNodeSelected = (tsNode: TreeSitter.ASTNode): void => {
     this.setState({
       selectedNode: tsNode
     });
@@ -55,7 +55,6 @@ export class TreeSitterPanel extends React.Component<Props, State> {
           tsDocument.setInputString(editor.getText());
           tsDocument.parse();
 
-          console.log(tsDocument.rootNode);
           return tsDocument;
         };
 

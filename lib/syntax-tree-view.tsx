@@ -6,11 +6,41 @@ const {AstNode} = require("./ast-node.tsx") as (typeof _AstNode);
 
 type Props = {
   tsDocument: TreeSitter.Document;
-  onNodeSelected(tsNode: TreeSitter.AstNode): void;
-  selectedNode: TreeSitter.AstNode | null;
+  onNodeSelected(tsNode: TreeSitter.ASTNode): void;
+  selectedNode: TreeSitter.ASTNode | null;
 };
 
 export class SyntaxTreeView extends React.Component<Props> {
+  private nodeMap = new Map<number, _AstNode.AstNode>();
+
+  public componentWillReceiveProps(nextProps: Props): void {
+    if (nextProps.tsDocument !== this.props.tsDocument) {
+      this.nodeMap.clear();
+    }
+
+    if (nextProps.selectedNode && nextProps.selectedNode !== this.props.selectedNode) {
+      let node = this.nodeMap.get(nextProps.selectedNode.id);
+
+      if (!node) { // Node is hidden in a fold
+        let tsNode = this.findChildNode(this.props.tsDocument.rootNode!, nextProps.selectedNode.id)!;
+        let visibleAncestor: TreeSitter.ASTNode | null = null;
+
+        while (!visibleAncestor && tsNode.parent) {
+          tsNode = tsNode.parent;
+
+          if (this.nodeMap.has(tsNode.id)) {
+            visibleAncestor = tsNode;
+          }
+        }
+
+        this.nodeMap.get(visibleAncestor!.id)!.toggle();
+        node = this.nodeMap.get(nextProps.selectedNode.id)!;
+      } else {
+        node.scrollIntoView();
+      }
+    }
+  }
+
   public render(): JSX.Element {
     return <div className="tree-sitter-syntax-tree">
       <h4>Syntax Tree</h4>
@@ -18,8 +48,25 @@ export class SyntaxTreeView extends React.Component<Props> {
         {this.props.tsDocument && <AstNode
           tsNode={this.props.tsDocument.rootNode!}
           onSelected={this.props.onNodeSelected}
-          selectedNode={this.props.selectedNode} />}
+          selectedNode={this.props.selectedNode}
+          nodeMap={this.nodeMap} />}
       </ul>
     </div>;
+  }
+
+  private findChildNode(rootNode: TreeSitter.ASTNode, id: number): TreeSitter.ASTNode | null {
+    if (rootNode.id === id) {
+      return rootNode;
+    }
+
+    for (let child of rootNode.children) {
+      const result = this.findChildNode(child, id);
+
+      if (result) {
+        return result;
+      }
+    }
+
+    return null;
   }
 }

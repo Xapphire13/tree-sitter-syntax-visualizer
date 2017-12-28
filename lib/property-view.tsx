@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as TreeSitter from "tree-sitter";
 
-export class PropertyView extends React.Component<{tsNode: TreeSitter.AstNode | null}> {
+export class PropertyView extends React.Component<{tsNode: TreeSitter.ASTNode | null}> {
   public render(): JSX.Element {
     return <div className="tree-sitter-property-view">
       <h4>Properties</h4>
