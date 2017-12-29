@@ -21,6 +21,11 @@
       }
     }
 
+    .tree-sitter-footer {
+      border-top: 1px solid #181a1f;
+      line-height: 2.5em;
+    }
+
     .tree-sitter-syntax-tree {
       display: flex;
       flex-direction: column;
@@ -35,6 +40,7 @@
       .root-ast-node {
         padding: 10px;
         overflow: auto;
+        flex: 1 1 auto;
       }
 
       .ast-node {
@@ -87,6 +93,10 @@
         .ast-node-list {
           margin-left: 13px;
         }
+      }
+
+      .tree-sitter-syntax-tree-options {
+        padding: 0 10px 0 10px;
       }
     }
 

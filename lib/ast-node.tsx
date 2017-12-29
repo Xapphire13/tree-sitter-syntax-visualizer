@@ -6,6 +6,7 @@ type Props = {
   onSelected(tsNode: TreeSitter.ASTNode): void;
   selectedNode: TreeSitter.ASTNode | null;
   nodeMap: Map<number, AstNode>;
+  showUnnamedTokens: boolean;
 };
 
 type State = {
@@ -52,12 +53,13 @@ export class AstNode extends React.Component<Props, State> {
       {!!this.props.tsNode.children.length && <div className="ast-node-toggle" onClick={this.toggle}></div>}
       <div className="ast-node-header" onClick={this.onClick}>{this.props.tsNode.type}</div>
       {this.state.expanded && <ul className="ast-node-list">
-        {this.props.tsNode.children.map(childNode => <AstNode
+        {(this.props.showUnnamedTokens ? this.props.tsNode.children : this.props.tsNode.namedChildren).map(childNode => <AstNode
             key={childNode.id}
             tsNode={childNode}
             onSelected={this.props.onSelected}
             selectedNode={this.props.selectedNode}
-            nodeMap={this.props.nodeMap} />)}
+            nodeMap={this.props.nodeMap}
+            showUnnamedTokens={this.props.showUnnamedTokens} />)}
       </ul>}
     </li>;
   }
