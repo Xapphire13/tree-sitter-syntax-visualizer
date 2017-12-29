@@ -27,6 +27,13 @@ const GRAMMAR_LANGUAGE_MAP = new Map<string, () => any>([
 export class TreeSitterPanel extends React.Component<Props, State> {
   private subscriptions = new CompositeDisposable();
   private onNodeSelected = (tsNode: TreeSitter.ASTNode): void => {
+    if (this.props.textEditor) {
+      this.props.textEditor.setSelectedBufferRange([
+        [tsNode.startPosition.row, tsNode.startPosition.column],
+        [tsNode.endPosition.row, tsNode.endPosition.column]
+      ]);
+    }
+
     this.setState({
       selectedNode: tsNode
     });
