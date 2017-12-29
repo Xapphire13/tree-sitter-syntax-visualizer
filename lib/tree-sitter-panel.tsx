@@ -63,8 +63,8 @@ export class TreeSitterPanel extends React.Component<Props, State> {
             tsDocument: createDocument()
           });
         }));
-        this.subscriptions.add(editor.onDidChangeCursorPosition(event => {
-          const currentNode = this.state.tsDocument!.rootNode!.descendantForPosition(event.newBufferPosition);
+        this.subscriptions.add(editor.onDidChangeSelectionRange(event => {
+          const currentNode = this.state.tsDocument!.rootNode!.descendantForPosition(event.newBufferRange.start, event.newBufferRange.end);
           if (currentNode) {
             this.setState({
               selectedNode: currentNode
