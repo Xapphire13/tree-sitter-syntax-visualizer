@@ -40,7 +40,9 @@ export class SyntaxTreeView extends React.Component<Props> {
 
   public render(): JSX.Element {
     return <div className="tree-sitter-syntax-tree">
-      <h4>Syntax Tree</h4>
+      <header className="tree-sitter-header">
+        <span className="tree-sitter-title">Syntax Tree</span>
+      </header>
       <ul className="ast-node-list root-ast-node">
         {this.props.tsDocument && <AstNode
           tsNode={this.props.tsDocument.rootNode!}
