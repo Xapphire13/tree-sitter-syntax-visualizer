@@ -59,14 +59,16 @@ export class SyntaxTreeView extends React.Component<Props, State> {
       <header className="tree-sitter-header">
         <span className="tree-sitter-title">Syntax Tree</span>
       </header>
-      <ul className="ast-node-list root-ast-node">
-        {this.props.tsDocument && <AstNode
-          tsNode={this.props.tsDocument.rootNode!}
-          onSelected={this.props.onNodeSelected}
-          selectedNode={this.props.selectedNode}
-          nodeMap={this.nodeMap}
-          showUnnamedTokens={this.state.showUnnamedTokens} />}
-      </ul>
+      <div className="tree-sitter-syntax-tree-content">
+        <ul className="ast-node-list">
+          {this.props.tsDocument && <AstNode
+            tsNode={this.props.tsDocument.rootNode!}
+            onSelected={this.props.onNodeSelected}
+            selectedNode={this.props.selectedNode}
+            nodeMap={this.nodeMap}
+            showUnnamedTokens={this.state.showUnnamedTokens} />}
+        </ul>
+      </div>
       <footer className="tree-sitter-footer tree-sitter-syntax-tree-options">
         <label className="input-label">
           <input

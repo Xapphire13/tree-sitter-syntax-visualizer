@@ -21,8 +21,9 @@ export class AstNode extends React.Component<Props, State> {
   };
 
   private element: HTMLElement;
-  private onClick = (): void => {
+  private onClick = (event: React.MouseEvent<HTMLLIElement>): void => {
     this.props.onSelected(this.props.tsNode);
+    event.stopPropagation();
   };
 
   constructor(props: Props) {
@@ -49,9 +50,9 @@ export class AstNode extends React.Component<Props, State> {
   }
 
   public render(): JSX.Element {
-    return <li className={this.getClassName()} ref={element => element && (this.element = element)}>
+    return <li className={this.getClassName()} ref={element => element && (this.element = element)} onClick={this.onClick}>
       {!!this.props.tsNode.children.length && <div className="ast-node-toggle" onClick={this.toggle}></div>}
-      <div className="ast-node-header" onClick={this.onClick}>{this.props.tsNode.type}</div>
+      <div className="ast-node-header">{this.props.tsNode.type}</div>
       {this.state.expanded && <ul className="ast-node-list">
         {(this.props.showUnnamedTokens ? this.props.tsNode.children : this.props.tsNode.namedChildren).map(childNode => <AstNode
             key={childNode.id}
@@ -85,7 +86,7 @@ export class AstNode extends React.Component<Props, State> {
 
   private isInView(): boolean {
     const thisBounds = this.element.getBoundingClientRect();
-    const syntaxViewBounds = document.getElementsByClassName("root-ast-node")[0].getBoundingClientRect();
+    const syntaxViewBounds = document.getElementsByClassName("tree-sitter-syntax-tree-content")[0].getBoundingClientRect();
 
     return thisBounds.top >= syntaxViewBounds.top && thisBounds.bottom <= syntaxViewBounds.bottom;
   }

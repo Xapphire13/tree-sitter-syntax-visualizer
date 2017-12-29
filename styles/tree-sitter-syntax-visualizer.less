@@ -37,21 +37,22 @@
         padding: 0;
       }
 
-      .root-ast-node {
+      .tree-sitter-syntax-tree-content {
         padding: 10px;
         overflow: auto;
         flex: 1 1 auto;
+        position: relative;
       }
 
       .ast-node {
-        // &.tree-sitter-selected::before {
-        //   background: #2c313a;
-        //   content: "";
-        //   position: absolute;
-        //   left: 0;
-        //   right: 0;
-        //   height: 2em;
-        // }
+        &.tree-sitter-selected::before {
+          background: #2c313a;
+          content: "";
+          position: absolute;
+          left: 0;
+          right: 0;
+          height: 18px;
+        }
 
         &.has-children {
           .ast-node-toggle {
@@ -88,6 +89,7 @@
 
         .ast-node-toggle, .ast-node-header {
           display: inline-block;
+          position: relative;
         }
 
         .ast-node-list {
