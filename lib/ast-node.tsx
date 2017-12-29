@@ -49,7 +49,7 @@ export class AstNode extends React.Component<Props, State> {
 
   public render(): JSX.Element {
     return <li className={this.getClassName()} ref={element => element && (this.element = element)}>
-      {this.props.tsNode.children.length > 0 && <div className="ast-node-toggle" onClick={this.toggle}></div>}
+      {!!this.props.tsNode.children.length && <div className="ast-node-toggle" onClick={this.toggle}></div>}
       <div className="ast-node-header" onClick={this.onClick}>{this.props.tsNode.type}</div>
       {this.state.expanded && <ul className="ast-node-list">
         {this.props.tsNode.children.map(childNode => <AstNode
@@ -70,8 +70,8 @@ export class AstNode extends React.Component<Props, State> {
 
   private getClassName(): string {
     const classes = ["ast-node"];
-    if (this.props.tsNode.children.length !== 0) classes.push("has-children");
-    if (this.isSelected()) classes.push("selected");
+    if (this.props.tsNode.children.length) classes.push("has-children");
+    if (this.isSelected()) classes.push("tree-sitter-selected");
     classes.push(this.state.expanded ? "expanded" : "collapsed");
 
     return classes.join(" ")

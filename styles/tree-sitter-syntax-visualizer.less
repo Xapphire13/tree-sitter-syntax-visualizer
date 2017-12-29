@@ -16,7 +16,7 @@
       padding: 10px;
 
       .ast-node {
-        // &.selected::before {
+        // &.tree-sitter-selected::before {
         //   background: #2c313a;
         //   content: "";
         //   position: absolute;
@@ -52,13 +52,18 @@
           }
         }
 
+        &:not(.has-children) {
+          .ast-node-header {
+            margin-left: 13px;
+          }
+        }
+
         .ast-node-toggle, .ast-node-header {
           display: inline-block;
-          height: 2em;
         }
 
         .ast-node-list {
-          margin-left: 10px;
+          margin-left: 13px;
         }
       }
 
