@@ -83,7 +83,7 @@ export class AstNode extends React.Component<Props, State> {
 
   private isInView(): boolean {
     const thisBounds = this.element.getBoundingClientRect();
-    const syntaxViewBounds = document.getElementsByClassName("tree-sitter-syntax-tree")[0].getBoundingClientRect();
+    const syntaxViewBounds = document.getElementsByClassName("root-ast-node")[0].getBoundingClientRect();
 
     return thisBounds.top >= syntaxViewBounds.top && thisBounds.bottom <= syntaxViewBounds.bottom;
   }

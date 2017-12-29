@@ -11,9 +11,14 @@
     flex-direction: column;
 
     .tree-sitter-syntax-tree {
+      display: flex;
+      flex-direction: column;
       flex: 1 1 auto;
-      overflow: auto;
       padding: 10px;
+
+      .root-ast-node {
+        overflow: auto;
+      }
 
       .ast-node {
         // &.tree-sitter-selected::before {
