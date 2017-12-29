@@ -36,20 +36,34 @@ export class SyntaxTreeView extends React.Component<Props, State> {
 
     if (nextProps.selectedNode &&
       nextProps.selectedNode !== this.props.selectedNode &&
-      !this.nodeMap.has(nextProps.selectedNode.id)) { // Node is hidden in a fold
-      let tsNode = this.findChildNode(this.props.tsDocument.rootNode!, nextProps.selectedNode.id)!;
-      let visibleAncestor: TreeSitter.ASTNode | null = null;
+      !this.nodeMap.has(nextProps.selectedNode.id)) { // Node is hidden (either toggled off, or in a folder)
+      let tsNode = this.findChildNode(this.props.tsDocument.rootNode!, nextProps.selectedNode.id);
 
-      while (!visibleAncestor && tsNode.parent) {
-        tsNode = tsNode.parent;
+      if (tsNode) {
+        if (!this.state.showUnnamedTokens && !tsNode.isNamed) {
+          const findNextNamedAncestor = (tsNode: TreeSitter.ASTNode): TreeSitter.ASTNode | null => {
+            let namedAncestor = tsNode.parent;
 
-        if (this.nodeMap.has(tsNode.id)) {
-          visibleAncestor = tsNode;
+            while (namedAncestor && !namedAncestor.isNamed) {
+              namedAncestor = namedAncestor.parent;
+            }
+
+            return namedAncestor;
+          };
+          tsNode = findNextNamedAncestor(tsNode);
+
+          if (tsNode) {
+            this.props.onNodeSelected(tsNode);
+          }
+        } else {
+          while (tsNode && !this.nodeMap.has(tsNode.id)) {
+            tsNode = tsNode.parent;
+          }
+
+          if (tsNode) {
+            this.nodeMap.get(tsNode.id)!.toggle();
+          }
         }
-      }
-
-      if (visibleAncestor && this.nodeMap.has(visibleAncestor.id)) {
-        this.nodeMap.get(visibleAncestor.id)!.toggle();
       }
     }
   }
