@@ -3,7 +3,7 @@ import * as TreeSitter from "tree-sitter";
 
 type Props = {
   tsNode: TreeSitter.ASTNode;
-  onSelected(tsNode: TreeSitter.ASTNode): void;
+  onSelected(userInteraction: boolean, tsNode: TreeSitter.ASTNode): void;
   selectedNode: TreeSitter.ASTNode | null;
   nodeMap: Map<number, AstNode>;
   showUnnamedTokens: boolean;
@@ -22,7 +22,7 @@ export class AstNode extends React.Component<Props, State> {
 
   private element: HTMLElement;
   private onClick = (event: React.MouseEvent<HTMLLIElement>): void => {
-    this.props.onSelected(this.props.tsNode);
+    this.props.onSelected(true, this.props.tsNode);
     event.stopPropagation();
   };
 

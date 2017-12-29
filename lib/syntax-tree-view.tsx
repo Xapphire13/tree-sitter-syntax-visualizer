@@ -6,7 +6,7 @@ const {AstNode} = require("./ast-node.tsx") as (typeof _AstNode);
 
 type Props = {
   tsDocument: TreeSitter.Document;
-  onNodeSelected(tsNode: TreeSitter.ASTNode): void;
+  onNodeSelected(userInteraction: boolean, tsNode: TreeSitter.ASTNode): void;
   selectedNode: TreeSitter.ASTNode | null;
 };
 
@@ -54,7 +54,7 @@ export class SyntaxTreeView extends React.Component<Props, State> {
           tsNode = findNextNamedAncestor(tsNode);
 
           if (tsNode) {
-            this.props.onNodeSelected(tsNode);
+            this.props.onNodeSelected(false, tsNode);
           }
         } else {
           const nextAncestor = this.state.showUnnamedTokens ?

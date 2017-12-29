@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import * as _TreeSitterPanel from "./tree-sitter-panel";
-import {CompositeDisposable} from "atom";
+import {CompositeDisposable, Disposable} from "atom";
 
 const {TreeSitterPanel} = require("./tree-sitter-panel.tsx") as (typeof _TreeSitterPanel);
 
@@ -12,6 +12,7 @@ module.exports = new class TreeSitterSyntaxVisualizer {
   public readonly getURI = () => "atom://tree-sitter";
 
   private subscriptions = new CompositeDisposable();
+  private editorSub: Disposable;
 
   constructor() {
     this.element = document.createElement("div");
@@ -29,6 +30,7 @@ module.exports = new class TreeSitterSyntaxVisualizer {
 
   public deactivate(): void {
     this.subscriptions.dispose();
+    this.editorSub && this.editorSub.dispose();
   }
 
   public serialize(): void {}
@@ -37,7 +39,8 @@ module.exports = new class TreeSitterSyntaxVisualizer {
     // TODO file bug/PR fixing documentation for `atom.workspace.open()`
     atom.workspace.toggle(this);
 
-    atom.workspace.observeActiveTextEditor(editor => {
+    this.editorSub && this.editorSub.dispose();
+    this.editorSub = atom.workspace.observeActiveTextEditor(editor => {
       this.render({textEditor: editor});
     });
   }
