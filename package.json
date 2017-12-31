@@ -1,7 +1,7 @@
 {
   "name": "tree-sitter-syntax-visualizer",
   "main": "./lib/tree-sitter-syntax-visualizer-package.ts",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Syntax tree visualizer for tree-sitter",
   "keywords": [
     "tree-sitter",
