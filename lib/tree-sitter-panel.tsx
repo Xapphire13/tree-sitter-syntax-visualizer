@@ -47,7 +47,7 @@ export class TreeSitterPanel extends React.Component<Props, State> {
       this.subscriptions.dispose();
       this.subscriptions = new CompositeDisposable();
 
-      const editor = nextProps.textEditor;
+      const editor = nextProps.textEditor as (TextEditor & {languageMode: {document?: TreeSitter.Document}} | undefined);
 
       if (editor && editor.languageMode.document) {
         this.subscriptions.add(editor.onDidChangeSelectionRange(event => {
