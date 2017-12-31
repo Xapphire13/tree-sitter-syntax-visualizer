@@ -7,6 +7,7 @@ import {CompositeDisposable, TextEditor} from "atom";
 
 const {PropertyView} = require("./property-view.tsx") as (typeof _PropertyView);
 const {SyntaxTreeView} = require("./syntax-tree-view.tsx") as (typeof _SyntaxTreeView);
+const debounce = require('debounce');
 
 export type Props = {
   textEditor: TextEditor | undefined;
@@ -16,13 +17,6 @@ type State = {
   tsDocument: TreeSitter.Document | null;
   selectedNode: TreeSitter.ASTNode | null;
 };
-
-const GRAMMAR_LANGUAGE_MAP = new Map<string, () => any>([
-  ["C#", () => require("tree-sitter-c-sharp")],
-  ["JavaScript", () => require("tree-sitter-javascript")],
-  ["JSON", () => require("tree-sitter-json")],
-  ["TypeScript", () => require("tree-sitter-typescript")]
-]);
 
 export class TreeSitterPanel extends React.Component<Props, State> {
   private subscriptions = new CompositeDisposable();
@@ -55,21 +49,7 @@ export class TreeSitterPanel extends React.Component<Props, State> {
 
       const editor = nextProps.textEditor;
 
-      if (editor && GRAMMAR_LANGUAGE_MAP.has(editor.getGrammar().name)) {
-        const createDocument = () => {
-          const tsDocument = new TreeSitter.Document();
-          tsDocument.setLanguage(GRAMMAR_LANGUAGE_MAP.get(editor.getGrammar().name)!());
-          tsDocument.setInputString(editor.getText());
-          tsDocument.parse();
-
-          return tsDocument;
-        };
-
-        this.subscriptions.add(editor.onDidSave(() => {
-          this.setState({
-            tsDocument: createDocument()
-          });
-        }));
+      if (editor && editor.languageMode.document) {
         this.subscriptions.add(editor.onDidChangeSelectionRange(event => {
           const currentNode = this.state.tsDocument!.rootNode!.descendantForPosition(event.newBufferRange.start, event.newBufferRange.end);
           if (currentNode) {
@@ -78,9 +58,12 @@ export class TreeSitterPanel extends React.Component<Props, State> {
             });
           }
         }));
+        this.subscriptions.add(editor.onDidChange(debounce(() => {
+          this.setState(); // Cause rerender
+        }, 500)));
 
         this.setState({
-          tsDocument: createDocument(),
+          tsDocument: editor.languageMode.document,
           selectedNode: null
         });
       } else {
