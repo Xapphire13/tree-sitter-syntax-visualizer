@@ -59,7 +59,7 @@ export class TreeSitterPanel extends React.Component<Props, State> {
           }
         }));
         this.subscriptions.add(editor.onDidChange(debounce(() => {
-          this.setState(); // Cause rerender
+          this.setState(prevState => prevState); // Cause rerender
         }, 500)));
 
         this.setState({
