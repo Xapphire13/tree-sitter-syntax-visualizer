@@ -9,14 +9,16 @@ export class PropertyView extends React.Component<{tsNode: TreeSitter.ASTNode | 
       </header>
       <div className="tree-sitter-property-view-content">
         <table>
-          <tr>
-            <td style={{fontWeight: "bold"}}>Type</td>
-            <td>{this.props.tsNode && (this.props.tsNode.isNamed ? this.props.tsNode.type : "token")}</td>
-          </tr>
-          <tr>
-            <td style={{fontWeight: "bold"}}>Span</td>
-            <td>{this.props.tsNode && this.formatSpan(this.props.tsNode.startPosition, this.props.tsNode.endPosition)}</td>
-          </tr>
+          <tbody>
+            <tr>
+              <td style={{fontWeight: "bold"}}>Type</td>
+              <td>{this.props.tsNode && (this.props.tsNode.isNamed ? this.props.tsNode.type : "token")}</td>
+            </tr>
+            <tr>
+              <td style={{fontWeight: "bold"}}>Span</td>
+              <td>{this.props.tsNode && this.formatSpan(this.props.tsNode.startPosition, this.props.tsNode.endPosition)}</td>
+            </tr>
+          </tbody>
         </table>
       </div>
     </div>;
