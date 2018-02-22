@@ -24,7 +24,7 @@ export class TreeSitterPanel extends React.Component<Props, State> {
     if (userInteraction && this.props.textEditor) {
       this.props.textEditor.setSelectedBufferRange([
         [tsNode.startPosition.row, tsNode.startPosition.column],
-        [tsNode.endPosition.row, tsNode.endPosition.column]
+        [tsNode.endPosition.row, tsNode.endPosition.column - 1]
       ]);
     }
 
