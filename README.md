@@ -11,13 +11,6 @@ package that uses the `tree-sitter` AST or a `tree-sitter` language itself.
 * Automatically select AST node for the current cursor position
 * Show/Hide unnamed AST nodes
 
-## Important note :warning:
-`tree-sitter` support in Atom is currently experimental and hasn't actually
-been incorporated to Atom core. In order to use this package, you will need
-to build your own version of Atom based upon the pull request
-[atom/atom #16299](https://github.com/atom/atom/pull/16299)
-by [@maxbrunsfeld](https://github.com/maxbrunsfeld).
-
 ## Contributing
 Contributions are more than welcome! If you want to fix something or add a
 feature, please:
