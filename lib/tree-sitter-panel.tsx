@@ -49,7 +49,7 @@ export class TreeSitterPanel extends React.Component<Props, State> {
 
       const editor = nextProps.textEditor as (TextEditor & {languageMode: {document?: TreeSitter.Document}} | undefined);
 
-      if (editor && editor.languageMode.document) {
+      if (editor && editor.languageMode.tree) {
         this.subscriptions.add(editor.onDidChangeSelectionRange(event => {
           const currentNode = this.state.tsDocument!.rootNode!.descendantForPosition(event.newBufferRange.start, event.newBufferRange.end);
           if (currentNode) {
@@ -63,7 +63,7 @@ export class TreeSitterPanel extends React.Component<Props, State> {
         }, 500)));
 
         this.setState({
-          tsDocument: editor.languageMode.document,
+          tsDocument: editor.languageMode.tree,
           selectedNode: null
         });
       } else {
