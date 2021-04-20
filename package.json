@@ -23,7 +23,7 @@
     "atom-ts-transpiler": "^1.4.0",
     "debounce": "^1.1.0",
     "react": "^16.2.0",
-    "react-dom": "^16.2.0",
+    "react-dom": "^16.12.0",
     "typescript": "^2.6.2"
   },
   "atomTranspilers": [
