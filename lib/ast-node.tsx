@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as TreeSitter from "tree-sitter";
+import { scrollIntoViewIfNeeded } from "atom-ide-base/commons-ui/scrollIntoView"
 
 type Props = {
   tsNode: TreeSitter.ASTNode;
@@ -44,9 +45,10 @@ export class AstNode extends React.Component<Props, State> {
   }
 
   public componentWillReceiveProps(nextProps: Props): void {
-    if (this.isSelected(nextProps)) {
-      this.scrollIntoView();
-    }
+    // TODO doesn't work
+    // if (this.isSelected(nextProps)) {
+    //   this.scrollIntoView();
+    // }
   }
 
   public render(): JSX.Element {
@@ -67,7 +69,7 @@ export class AstNode extends React.Component<Props, State> {
 
   private scrollIntoView(): void {
     if (this.element && !this.isInView()) {
-      this.element.scrollIntoView();
+      scrollIntoViewIfNeeded(this.element, true)
     }
   }
 
