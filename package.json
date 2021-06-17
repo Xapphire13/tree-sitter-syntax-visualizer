@@ -20,11 +20,12 @@
     "atom": ">=1.0.0 <2.0.0"
   },
   "dependencies": {
-    "atom-ts-transpiler": "^1.4.0",
-    "debounce": "^1.1.0",
-    "react": "^16.2.0",
-    "react-dom": "^16.12.0",
-    "typescript": "^2.6.2"
+    "atom-ide-base": "^3.1.1",
+    "atom-ts-transpiler": "^1.5.3",
+    "debounce": "^1.2.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "typescript": "^4.3.4"
   },
   "atomTranspilers": [
     {
@@ -33,9 +34,9 @@
     }
   ],
   "devDependencies": {
-    "@types/atom": "^1.22.4",
-    "@types/react": "^16.0.31",
-    "@types/react-dom": "^16.0.3",
-    "tree-sitter": "^0.8.3"
+    "@types/atom": "^1.40.10",
+    "@types/react": "^17.0.11",
+    "@types/react-dom": "^17.0.7",
+    "tree-sitter": "^0.19.0"
   }
 }
