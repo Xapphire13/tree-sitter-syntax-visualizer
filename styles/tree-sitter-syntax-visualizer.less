@@ -28,6 +28,7 @@
 
     .tree-sitter-syntax-tree {
       display: flex;
+      overflow: auto;
       flex-direction: column;
       flex: 1 1 auto;
       border-bottom: 1px solid #181a1f;
@@ -104,7 +105,8 @@
 
     .tree-sitter-property-view {
       flex: 1 1 auto;
-      min-height: 300px;
+      overflow: auto;
+      min-height: 100px;
 
       .tree-sitter-property-view-content {
         padding: 10px;
